@@ -3,7 +3,10 @@ var React = require('react-native');
 var {
   View,
   Text,
-  StyleSheet
+  StyleSheet,
+  TextInput,
+  TouchableHighlight,
+  ActivityIndicatorIOS
 } = React;
 
 var styles = StyleSheet.create({
@@ -51,10 +54,39 @@ var styles = StyleSheet.create({
 });
 
 class Main extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: '',
+      isLoading: false,
+      error: false
+    }
+  }
+  handleChange(event){
+    this.setState({
+      username: event.nativeEvent.text
+    })
+  }
+  handleSubmit(){
+    this.setState({
+      isLoading: true
+    })
+    console.log('Submit', this.state.username)
+  }
   render() {
     return(
       <View style={styles.mainContainer}>
-      <Text> Testing the Router </Text>
+      <Text style={styles.title}> Search for Github User </Text>
+      <TextInput
+        style={styles.searchInput}
+        value={this.state.username}
+        onChange={this.handleChange.bind(this)} />
+      <TouchableHighlight
+        style={styles.button}
+        onPress={this.handleSubmit.bind(this)}
+        underlayColor="white">
+          <Text style={styles.buttonText}> SEARCH </Text>
+      </TouchableHighlight>
       </View>
       )
   }
